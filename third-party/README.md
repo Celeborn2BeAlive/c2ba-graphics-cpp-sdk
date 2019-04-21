@@ -1,0 +1,1 @@
+This folder contains third party libraries for the SDK. Most of them are handled with vcpkg (https://github.com/Microsoft/vcpkg) and must be built by running the script located in the build-scripts folder.
