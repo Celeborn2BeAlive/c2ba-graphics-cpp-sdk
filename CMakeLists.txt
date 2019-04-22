@@ -18,6 +18,8 @@ find_package(glm CONFIG REQUIRED)
 find_package(fmt CONFIG REQUIRED)
 find_package(cxxopts CONFIG REQUIRED)
 
+# Glad library 
+
 file(
     GLOB_RECURSE
     GLAD_SRC_FILES
@@ -26,6 +28,7 @@ file(
 
 add_library(
     glad
+	STATIC
     ${GLAD_SRC_FILES}
 )
 
@@ -35,8 +38,10 @@ target_include_directories(
     third-party/glad/include
 )
 
+# List of all third party libraries to link to c2ba
+
 set(
-    LIBRARIES
+    THIRD_PARTY_LIBRARIES
     glad
     OpenGL::GL
     glfw
@@ -47,6 +52,55 @@ set(
     fmt::fmt-header-only
     cxxopts::cxxopts
 )
+
+# c2ba library, to share code between apps
+
+file(
+    GLOB_RECURSE
+    C2BA_SRC_FILES
+    libs/c2ba/*.cpp libs/c2ba/*.hpp
+	third-party/imgui_impl/*.cpp third-party/imgui_impl/*.h 
+)
+
+add_library(
+	c2ba
+	STATIC
+	${C2BA_SRC_FILES}
+)
+
+target_include_directories(
+	c2ba
+	PUBLIC
+	libs/c2ba/include
+    ${OPENGL_INCLUDE_DIR}
+	PRIVATE
+	libs/c2ba/src
+	third-party/imgui_impl
+)
+
+target_link_libraries(
+	c2ba
+	PUBLIC
+	${THIRD_PARTY_LIBRARIES}
+)
+
+target_compile_definitions(
+	c2ba
+	PUBLIC
+	IMGUI_IMPL_OPENGL_LOADER_GLAD
+)
+
+install(
+	TARGETS c2ba
+	LIBRARY DESTINATION lib
+)
+
+install(DIRECTORY ${CMAKE_BINARY_DIR}/$<CONFIG>/
+	DESTINATION bin
+	FILES_MATCHING PATTERN "*.dll"
+ )
+
+# Applications
 
 file(GLOB APP_DIRECTORIES "apps/*")
 foreach(DIR ${APP_DIRECTORIES})
@@ -66,18 +120,12 @@ foreach(DIR ${APP_DIRECTORIES})
     target_link_libraries(
         ${APP}
         PRIVATE
-        ${LIBRARIES}
-    )
-
-    target_include_directories(
-        ${APP}
-        PRIVATE
-        ${OPENGL_INCLUDE_DIR}
+        c2ba
     )
 
     install(
         TARGETS ${APP}
-        DESTINATION bin
+        RUNTIME DESTINATION bin
     )
 
     # c2ba_add_shader_directory(${DIR}/shaders ${SHADER_OUTPUT_PATH}/${APP})
