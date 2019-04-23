@@ -3,6 +3,8 @@
 
 cmake_minimum_required(VERSION 3.14)
 
+set(ENV{VCPKG_ROOT} "") # Unset VCPKG_ROOT env var, otherwise the vcpkg executable would use that location instead of our local folder
+
 if (NOT VCPKG_3RDPARTY_ROOT)
     message(FATAL_ERROR "VCPKG_3RDPARTY_ROOT must be set to the path where vcpkg should be cloned.")
 endif()

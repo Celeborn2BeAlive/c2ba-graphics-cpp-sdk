@@ -1,3 +1,5 @@
 .vs
 .vscode
 third-party/vcpkg
+cmake-build
+cmake-install
