@@ -11,26 +11,26 @@ namespace c2ba
 class WindowManager
 {
 public:
-	WindowManager(uint16_t width, uint16_t height, const char * title);
-	~WindowManager();
+    WindowManager(uint16_t width, uint16_t height, const char * title);
+    ~WindowManager();
 
     // Non-copyable class:
-    WindowManager(const WindowManager&) = delete;
-    WindowManager& operator =(const WindowManager&) = delete;
+    WindowManager(const WindowManager &) = delete;
+    WindowManager & operator=(const WindowManager &) = delete;
 
-	bool shouldClose() const;
+    bool shouldClose() const;
 
-	glm::ivec2 framebufferSize() const;
+    glm::ivec2 framebufferSize() const;
 
-	void swapBuffers() const;
+    void swapBuffers() const;
 
-    GLFWwindow* window()
+    GLFWwindow * window()
     {
         return m_pWindow;
     }
 
 private:
-    GLFWwindow* m_pWindow = nullptr;
+    GLFWwindow * m_pWindow = nullptr;
 };
 
 // To be called before calling functions from Dear ImGui in the render loop
@@ -44,4 +44,4 @@ void pollEvents();
 // Get seconds since the window manager has been created
 double getSeconds();
 
-}
+} // namespace c2ba

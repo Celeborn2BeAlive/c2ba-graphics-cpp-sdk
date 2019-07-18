@@ -5,50 +5,57 @@
 
 struct GLFWwindow;
 
-namespace c2ba 
+namespace c2ba
 {
 
-class ViewController 
+class ViewController
 {
 public:
-    ViewController(GLFWwindow* window, float speed = 1.f) :
-        m_pWindow(window), m_fSpeed(speed) {
+    ViewController(GLFWwindow * window, float speed = 1.f): m_pWindow(window), m_fSpeed(speed)
+    {
     }
 
-    void setSpeed(float speed) {
+    void setSpeed(float speed)
+    {
         m_fSpeed = speed;
     }
 
-    float getSpeed() const {
+    float getSpeed() const
+    {
         return m_fSpeed;
     }
 
-    void increaseSpeed(float delta) {
+    void increaseSpeed(float delta)
+    {
         m_fSpeed += delta;
         m_fSpeed = glm::max(m_fSpeed, 0.f);
     }
 
-    float getCameraSpeed() const {
+    float getCameraSpeed() const
+    {
         return m_fSpeed;
     }
 
     bool update(float elapsedTime);
 
-    void setViewMatrix(const glm::mat4& viewMatrix) {
+    void setViewMatrix(const glm::mat4 & viewMatrix)
+    {
         m_ViewMatrix = viewMatrix;
         m_RcpViewMatrix = glm::inverse(viewMatrix);
     }
 
-    const glm::mat4& getViewMatrix() const {
+    const glm::mat4 & getViewMatrix() const
+    {
         return m_ViewMatrix;
     }
 
-    const glm::mat4& getRcpViewMatrix() const {
+    const glm::mat4 & getRcpViewMatrix() const
+    {
         return m_RcpViewMatrix;
     }
 
 private:
-    GLFWwindow* m_pWindow = nullptr;
+    GLFWwindow * m_pWindow = nullptr;
     float m_fSpeed = 0.f;
     bool m_LeftButtonPressed = false;
     glm::dvec2 m_LastCursorPosition;
@@ -57,4 +64,4 @@ private:
     glm::mat4 m_RcpViewMatrix = glm::mat4(1);
 };
 
-}
+} // namespace c2ba

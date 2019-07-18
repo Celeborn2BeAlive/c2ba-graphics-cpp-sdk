@@ -15,4 +15,4 @@ namespace fs = boost::filesystem;
 namespace fs = std::experimental::filesystem; // Shorter namespace for experimental filesystem standard library
 #endif
 
-}
+} // namespace c2ba
